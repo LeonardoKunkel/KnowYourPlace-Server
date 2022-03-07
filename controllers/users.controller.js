@@ -169,6 +169,63 @@ exports.getUser = async (req, res) => {
 
 }
 
+exports.editUser = async (req, res) => {
+
+    const { id } = req.params;
+    const {
+        name,
+        lastname,
+        field,
+        position,
+        profile
+    } = req.body
+
+    try {
+
+        const userUpdated = await User.findByIdAndUpdate(
+            id,
+            { name, lastname, field, position, profile },
+            { new: true }
+        )
+
+        res.status(202).json({
+            msg: 'Usuario actualizado',
+            data: userUpdated
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(400).json({
+            msg: 'Hubo un problema actualizando al usuario.'
+        })
+    }
+
+}
+
+exports.deleteUser = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+
+        const userDeleted = await User.findByIdAndDelete(id);
+
+        res.status(202).json({
+            msg: 'Usuario elimienado con éxito',
+            data: userDeleted
+        })
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(400).json({
+            msg: 'No se puedo eliminar al usuario'
+        })
+    }
+
+}
+
 exports.verifyToken = async (req, res) => {
 
     console.log(req.user);
