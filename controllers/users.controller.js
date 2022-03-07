@@ -125,6 +125,50 @@ exports.login = async (req, res) => {
 
 }
 
+exports.getUsers = async (req, res) => {
+
+    try {
+
+        const usersFound = await User.find({});
+
+        res.status(200).json({
+            msg: 'Usuarios encontrados.',
+            data: usersFound
+        })
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(404).json({
+            msg: 'Usurios no encontrados.'
+        })
+    }
+
+}
+
+exports.getUser = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+
+        const userFound = await User.findById(id);
+
+        res.status(200).json({
+            msg: 'Usuario encontrado.',
+            data: userFound
+        })
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(404).json({
+            msg: 'Usuario no encontrado.'
+        })
+    }
+
+}
+
 exports.verifyToken = async (req, res) => {
 
     console.log(req.user);
