@@ -54,7 +54,8 @@ exports.create = async (req, res) => {
                 }
                 res.status(201).json({
                     msg: 'Usuario creado con éxito.',
-                    data: token
+                    data: token,
+                    // newUser
                 })
             }
         )
@@ -108,7 +109,8 @@ exports.login = async (req, res) => {
                 if(error) throw error
 
                 res.status(202).json({
-                    msg: 'Inicio de sesión exitoso.'
+                    msg: 'Inicio de sesión exitoso.',
+                    data: token
                 });
             }
         )
@@ -118,6 +120,29 @@ exports.login = async (req, res) => {
 
         res.status(401).json({
             msg: 'Hubo un problema con la autenticación.'
+        })
+    }
+
+}
+
+exports.verifyToken = async (req, res) => {
+
+    console.log(req.user);
+
+    try {
+
+        const foundUser = await User.findById(req.user.id).select('-password')
+
+        return res.status(202).json({
+            msg: 'Datos del usuario encontrados.',
+            data: foundUser
+        })
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            msg: 'Hubo un error autorizando al usuario.'
         })
     }
 
