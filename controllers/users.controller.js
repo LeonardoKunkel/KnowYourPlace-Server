@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        console.log(hashedPassword);
+        // console.log(hashedPassword);
 
         const newUser = await User.create({
             name,
@@ -152,7 +152,8 @@ exports.getUser = async (req, res) => {
 
     try {
 
-        const userFound = await User.findById(id);
+        const userFound = await User.findById(id)
+                                    .populate('reservations')
 
         res.status(200).json({
             msg: 'Usuario encontrado.',
@@ -242,8 +243,8 @@ exports.verifyToken = async (req, res) => {
     } catch (error) {
         console.log(error);
 
-        res.status(500).json({
-            msg: 'Hubo un error autorizando al usuario.'
+        res.status(401).json({
+            msg: 'No está autorizado.'
         })
     }
 

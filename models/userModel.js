@@ -21,7 +21,8 @@ const userSchema = Schema({
     },
     profile: {
         type: Boolean,
-        default: false
+        default: false,
+        required: true
     },
     field: {
         type: String,
@@ -31,9 +32,12 @@ const userSchema = Schema({
         type: String,
         required: true
     },
-    reservations: {
-        type: Array
-    }
+    reservations: [
+        {
+            type: Schema.Types.ObjectId,
+            ref:'Reserv'
+        }
+    ]
 });
 
 module.exports = model('User', userSchema);
