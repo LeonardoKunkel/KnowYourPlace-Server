@@ -129,7 +129,7 @@ exports.getUsers = async (req, res) => {
 
     try {
 
-        const usersFound = await User.find({});
+        const usersFound = await User.find({}).populate('reservations');
 
         res.status(200).json({
             msg: 'Usuarios encontrados.',
@@ -153,7 +153,6 @@ exports.getUser = async (req, res) => {
     try {
 
         const userFound = await User.findById(id)
-                                    .populate('reservations')
 
         res.status(200).json({
             msg: 'Usuario encontrado.',
@@ -233,9 +232,9 @@ exports.verifyToken = async (req, res) => {
 
     try {
 
-        const foundUser = await User.findById(req.user.id).select('-password')
+        const foundUser = await User.findById(req.user.id).select("-password")
 
-        return res.status(202).json({
+        res.status(202).json({
             msg: 'Datos del usuario encontrados.',
             data: foundUser
         })

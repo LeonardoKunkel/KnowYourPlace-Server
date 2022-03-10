@@ -32,3 +32,42 @@ exports.create = async (req, res) => {
     }
 
 }
+
+exports.getAll = async (req, res) => {
+
+    try {
+
+        const reservsFound = await Reserv.find({})
+
+        res.status(200).json({
+            msg: 'Reservaciones encontradas.',
+            data: reservsFound
+        })
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(404).json({
+            msg: 'No se encotraron las reservaciones.'
+        })
+    }
+
+}
+
+exports.edit = async (req, res) => {
+
+    const { id } = req.params;
+    const {
+        floor,
+        time
+    } = req.body
+
+    try {
+
+        const reservUpdated = await Reserv.findByIdAndUpdate()
+
+    } catch (error) {
+        
+    }
+
+}
