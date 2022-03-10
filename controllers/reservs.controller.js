@@ -4,7 +4,7 @@ const User = require('../models/userModel')
 exports.create = async (req, res) => {
 
     const { floor, time, user } = req.body;
-    const { id } = req.params;
+    // const { id } = req.params;
 
     try {
 
@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
             user
         });
 
-        await User.findByIdAndUpdate(id, {
+        await User.findByIdAndUpdate(user, {
             $push: { reservations: newReserv }
         })
 
@@ -34,6 +34,9 @@ exports.create = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
+
+    const { user } = req.body;
+    console.log(user);
 
     try {
 
@@ -56,7 +59,7 @@ exports.getAll = async (req, res) => {
 
 exports.edit = async (req, res) => {
 
-    const { id } = req.params;
+    const { id } = req.params
     const {
         floor,
         time
@@ -64,10 +67,26 @@ exports.edit = async (req, res) => {
 
     try {
 
-        const reservUpdated = await Reserv.findByIdAndUpdate()
+        const reservUpdated = await Reserv.findByIdAndUpdate(
+            id,
+            {
+                floor,
+                time
+            },
+            { new: true }
+        );
+
+        res.status(201).json({
+            msg: "Reservación actualizada",
+            data: reservUpdated
+        })
 
     } catch (error) {
-        
+        console.log(error);
+
+        res.status(400).json({
+            msg: "Error en actualizar la reservación"
+        })
     }
 
 }
