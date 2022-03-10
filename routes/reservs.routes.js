@@ -8,4 +8,6 @@ router.get('/', reservCtrl.getAll);
 
 router.put('/edit/:id', reservCtrl.edit);
 
+router.delete('/:id', reservCtrl.delete);
+
 module.exports = router;

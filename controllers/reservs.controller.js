@@ -35,9 +35,6 @@ exports.create = async (req, res) => {
 
 exports.getAll = async (req, res) => {
 
-    const { user } = req.body;
-    console.log(user);
-
     try {
 
         const reservsFound = await Reserv.find({})
@@ -86,6 +83,29 @@ exports.edit = async (req, res) => {
 
         res.status(400).json({
             msg: "Error en actualizar la reservación"
+        })
+    }
+
+}
+
+exports.delete = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+
+        const deletedReserv = await Reserv.findByIdAndDelete(id);
+
+        res.status(202).json({
+            msg: 'Reservación eliminada.',
+            data: deletedReserv
+        })
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(400).json({
+            msg: 'Error al eliminar la reservación.'
         })
     }
 
